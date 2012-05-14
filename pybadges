@@ -71,16 +71,43 @@ def draw_badge(ctx, width, height, description, background_image):
                   convert_mm_to_dots(height))
     ctx.stroke()
 
+    if len(description) == 0:
+        return
+
     name = description[0].strip()
-    company = description[1].strip()
-    role = description[2].strip()
+
+    if len(description) > 1:
+        company = description[1].strip()
+    else:
+        company = ''
+
+    if len(description) > 2:
+        role = description[2].strip()
+    else:
+        role = ''
+
+    if name and company and role:
+        name_y = 5
+        company_y = 60
+        role_y = 80
+    elif name and company and not role:
+        name_y = 10
+        company_y = 70
+    elif name and not company and role:
+        name_y = 10
+        role_y = 70
+    elif name and not company and not role:
+        name_y = 30
 
     ctx.set_source_rgb(TEXT_COLOR[0], TEXT_COLOR[1], TEXT_COLOR[2])
     pc = pangocairo.CairoContext(ctx)
 
-    draw_text(ctx, pc, name,    18, 5, width * 0.9, height / 3, width, True)
-    draw_text(ctx, pc, company, 16, 60, width * 0.9, height / 7, width)
-    draw_text(ctx, pc, role,    14, 80, width * 0.9, height / 7, width)
+    if name:
+        draw_text(ctx, pc, name,    18, name_y, width * 0.9, height / 3, width, True)
+    if company:
+        draw_text(ctx, pc, company, 16, company_y, width * 0.9, height / 7, width)
+    if role:
+        draw_text(ctx, pc, role,    14, role_y, width * 0.9, height / 7, width)
 
 def generate_document(input_csv, output_pdf, background_image):
     surface = cairo.PDFSurface(output_pdf,
