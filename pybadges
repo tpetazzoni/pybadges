@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 
+# This is a crappy Python script to generate badges for conferences,
+# from a CSV file that looks like:
+#  firstname lastname,company,role
+#
+# Typically "role" can be "speaker, "attendee", "organizer" or
+# something like that.
+#
+# Licensed under the WTFPL license, http://sam.zoy.org/wtfpl/.
+
 import cairo
 import pango
 import pangocairo
